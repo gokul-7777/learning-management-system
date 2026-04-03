@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillForge | Training Center</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body class="learning-body">
+
+    <nav style="background: #1B263B; color: white; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #F37021; position: sticky; top: 0; z-index: 1000;">
+        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="window.location.href='dashboard.html'">
+            <div style="background: #F37021; color: white; padding: 5px 12px; border-radius: 4px; font-weight: 900; font-size: 22px; transform: skewX(-10deg);">SF</div>
+            <h2 style="margin: 0; letter-spacing: 1.5px;">SKILL<span style="color: #F37021;">FORGE</span></h2>
+        </div>
+        <button onclick="window.location.href='dashboard.html'" style="background: transparent; color: white; border: 1px solid white; padding: 8px 15px; border-radius: 5px; cursor: pointer;">← Dashboard</button>
+    </nav>
+
+    <div id="learning-container" class="portal-grid" style="display: grid; grid-template-columns: 1fr 350px; gap: 30px; padding: 40px; max-width: 1400px; margin: 0 auto;">
+        
+        <div class="main-viewer-card" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <span class="unit-label" style="color: #64748b; font-size: 12px; font-weight: bold; text-transform: uppercase;">Industrial Training Unit</span>
+            <h1 id="course-title" class="course-heading" style="margin: 10px 0 25px 0; color: #1B263B;">Loading Module...</h1>
+            
+            <div id="video-container" class="video-wrapper" style="background: #000; border-radius: 12px; aspect-ratio: 16/9; overflow: hidden; display: flex; align-items: center; justify-content: center; color: white;">
+                <p>Initializing Video Player...</p>
+            </div>
+
+            <div class="viewer-footer" style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid #f1f5f9;">
+                <div class="status-box">
+                    <h4 class="status-heading" style="margin: 0; font-size: 14px; color: #1B263B;">Module Status</h4>
+                    <p id="status" class="status-text" style="margin: 5px 0 0 0; font-size: 13px; color: #888;">Complete all units to unlock the final assessment ✅</p>
+                </div>
+                <button id="completeBtn" class="complete-action-btn" disabled style="background: #e2e8f0; color: #94a3b8; padding: 15px 30px; border: none; border-radius: 8px; font-weight: bold; cursor: not-allowed; transition: 0.3s;">
+                    LOCKED: VIEW ALL UNITS 🔒
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-card" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); height: fit-content;">
+            <h3 class="sidebar-heading" style="margin-top: 0; color: #1B263B;">Course Materials</h3>
+            <p class="sidebar-progress" style="font-size: 14px; color: #64748b; margin-bottom: 20px;">
+                Progress: <span id="progress-count" style="font-weight: bold; color: #F37021;">0 / 0</span> Units Viewed
+            </p>
+            <ul id="material-list" class="material-list" style="padding: 0; margin: 0; list-style: none;"></ul>
+        </div>
+    </div>
+
+    <div id="quiz-section" style="display: none; max-width: 900px; margin: 40px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+        <div style="border-bottom: 4px solid #F37021; margin-bottom: 30px; padding-bottom: 15px;">
+            <h2 style="color: #1B263B; margin: 0; font-size: 28px;">Industrial Knowledge Assessment</h2>
+            <p style="color: #666; font-size: 16px; margin-top: 5px;">
+                Pass Criteria: <strong>70% (7 out of 10 correct)</strong>
+            </p>
+        </div>
+
+        <div id="questions-area"></div>
+
+        <div id="quiz-result" style="display: none; margin: 25px 0; padding: 25px; border-radius: 10px; text-align: center; font-weight: bold; font-size: 18px;"></div>
+
+        <div id="quiz-controls" style="margin-top: 30px;">
+            <button onclick="submitAssessment()" style="background: #1B263B; color: white; padding: 20px; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; width: 100%; transition: 0.3s;">
+                SUBMIT ASSESSMENT FOR EVALUATION
+            </button>
+        </div>
+    </div>
+
+    <div id="certificate-area" class="cert-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: flex-start; flex-direction: column; overflow-y: auto; padding: 50px 0;">
+        
+        <div id="cert-capture" style="width: 750px; padding: 30px; background: #ffffff; text-align: center; color: #000; border: 15px solid #1B263B; margin-bottom: 30px; box-shadow: 0 0 50px rgba(255,255,255,0.1);">
+            <div style="border: 4px double #D4AF37; padding: 50px; background: #ffffff; position: relative;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px;">
+                    <div style="background: #F37021; color: white; padding: 5px 12px; border-radius: 4px; font-weight: 900; font-size: 22px;">SF</div>
+                    <h2 style="margin: 0; letter-spacing: 2px; font-family: 'Arial Black', sans-serif;">SKILL<span style="color: #F37021;">FORGE</span></h2>
+                </div>
+                
+                <h1 style="font-size: 50px; color: #1B263B; font-family: 'Georgia', serif; margin: 0;">CERTIFICATE</h1>
+                <p style="font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 8px; margin: 10px 0 40px 0;">Of Training Completion</p>
+                
+                <p style="font-size: 18px; color: #555;">This document serves to officially certify that</p>
+                <h2 id="cert-worker-name" style="font-size: 38px; border-bottom: 2px solid #1B263B; display: inline-block; padding: 0 40px; font-family: 'Times New Roman', serif; color: #222; margin: 15px 0;">Authorized Worker</h2>
+                
+                <p style="font-size: 18px; color: #555; margin-top: 20px;">has successfully passed the high-standard industrial assessment for:</p>
+                <h3 id="cert-course-title" style="font-size: 28px; color: #F37021; margin: 15px 0;">Module Title</h3>
+                
+                <div style="margin-top: 50px; display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div style="text-align: left;">
+                        <p id="cert-verification-id" style="font-size: 11px; color: #999; margin: 0;">Verification ID: SF-000000</p>
+                        <p style="font-size: 14px; color: #333; font-weight: bold; margin: 5px 0 0 0;">Date: <span id="cert-date"></span></p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-family: 'Brush Script MT', cursive; font-size: 24px; margin: 0;">SkillForge Board</p>
+                        <div style="width: 150px; border-top: 1px solid #333; margin-top: 5px;"></div>
+                        <p style="font-size: 12px; color: #666;">Authorized Signature</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cert-actions" style="display: flex; gap: 20px; padding-bottom: 50px;">
+            <button onclick="downloadCertificate()" style="background: #22C55E; color: white; padding: 18px 40px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(34,197,94,0.3);">💾 SAVE AS PNG IMAGE</button>
+            <button onclick="window.location.href='dashboard.html'" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 18px 40px; border-radius: 8px; cursor: pointer; backdrop-filter: blur(5px);">Return to Dashboard</button>
+        </div>
+    </div>
+
+    <script src="learning.js"></script>
+</body>
+</html>

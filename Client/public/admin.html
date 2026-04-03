@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillForge | Admin Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background: #f1f5f9; font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 60px;">
+
+    <nav style="background: #1B263B; color: white; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #F37021; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="window.location.href='dashboard.html'">
+            <div style="background: #F37021; color: white; padding: 5px 12px; border-radius: 4px; font-weight: 900; font-size: 22px; transform: skewX(-10deg);">SF</div>
+            <h2 style="margin: 0; letter-spacing: 1.5px;">SKILL<span style="color: #F37021;">FORGE</span> ADMIN</h2>
+        </div>
+        <button onclick="window.location.href='dashboard.html'" style="background: transparent; color: white; border: 1px solid white; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s;" onmouseover="this.style.background='white'; this.style.color='#1B263B';" onmouseout="this.style.background='transparent'; this.style.color='white';">← Back to Dashboard</button>
+    </nav>
+
+    <div style="max-width: 1200px; margin: 40px auto; padding: 0 20px;">
+        
+        <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; align-items: start;">
+            
+            <div style="background: white; padding: 35px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 6px solid #F37021;">
+                <h2 style="margin-top: 0; color: #1B263B; font-size: 24px;">Deploy New Module</h2>
+                <p style="color: #64748b; margin-bottom: 30px; font-size: 15px;">Add industrial training content and set up the 10-question certification exam.</p>
+                
+                <form id="course-form">
+                    <div style="margin-bottom: 30px;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 12px; color: #1B263B; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Course Title</label>
+                        <input type="text" id="course-title" placeholder="e.g. Forklift Operation Safety" required style="width: 100%; padding: 15px; border: 2px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; transition: 0.3s; background: #f8fafc;">
+                    </div>
+
+                    <div style="margin-bottom: 45px;">
+                        <h3 style="color: #1B263B; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                            <span style="background: #1B263B; color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 14px; font-weight: bold;">1</span> 
+                            Training Materials
+                        </h3>
+                        <div id="materials-list" style="margin-top: 20px;"></div>
+                        <button type="button" id="add-material-btn" style="background: #1B263B; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; font-size: 14px;">
+                            + Add Material Row
+                        </button>
+                    </div>
+
+                    <div id="quiz-inputs-container">
+                        <p style="color: #94a3b8; font-style: italic; text-align: center; padding: 20px;">Initializing assessment builder...</p>
+                    </div>
+
+                    <button type="submit" style="width: 100%; background: #22C55E; color: white; border: none; padding: 22px; border-radius: 12px; font-weight: 900; font-size: 18px; cursor: pointer; margin-top: 40px; box-shadow: 0 10px 25px rgba(34,197,94,0.3); transition: 0.3s; text-transform: uppercase; letter-spacing: 2px;">
+                        🚀 DEPLOY MODULE & EXAM
+                    </button>
+                </form>
+            </div>
+
+            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: fit-content; border-top: 6px solid #1B263B; position: sticky; top: 110px;">
+                <h2 style="margin-top: 0; color: #1B263B; font-size: 22px;">Active Catalog</h2>
+                <p style="color: #64748b; font-size: 14px; margin-bottom: 25px;">Current modules available to the workforce.</p>
+                <div id="admin-course-list">
+                    <p style="color: #94a3b8; text-align: center; padding: 20px;">Syncing with server...</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 60px; background: white; padding: 35px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); border-top: 6px solid #22C55E;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <div>
+                    <h2 style="margin: 0; color: #1B263B; font-size: 26px;">Worker Progress Tracking</h2>
+                    <p style="color: #64748b; margin-top: 8px; font-size: 15px;">Real-time monitoring of registration and certification milestones.</p>
+                </div>
+                <button onclick="loadUserAnalytics()" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; color: #1B263B; transition: 0.2s; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.background='#edf2f7';" onmouseout="this.style.background='#f8fafc';">
+                    🔄 Refresh Stats
+                </button>
+            </div>
+
+            <div style="overflow-x: auto; border-radius: 10px; border: 1px solid #e2e8f0;">
+                <table style="width: 100%; border-collapse: collapse; min-width: 700px; background: white;">
+                    <thead>
+                        <tr style="background: #1B263B; color: white; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
+                            <th style="padding: 18px; text-align: left;">Worker ID</th>
+                            <th style="padding: 18px; text-align: left;">Certification Status</th>
+                            <th style="padding: 18px; text-align: left;">Completed Modules</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-stats-table">
+                        <tr>
+                            <td colspan="3" style="text-align: center; padding: 40px; color: #94a3b8; font-style: italic;">
+                                Connecting to worker database...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

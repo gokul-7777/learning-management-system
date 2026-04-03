@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillForge | Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0;">
+    
+    <nav style="background: #1B263B; color: white; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #F37021; position: sticky; top: 0; z-index: 1000;">
+        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="window.location.href='dashboard.html'">
+            <div style="background: #F37021; color: white; padding: 5px 12px; border-radius: 4px; font-weight: 900; font-size: 20px; transform: skewX(-10deg);">SF</div>
+            <h2 style="margin: 0; letter-spacing: 1.5px; font-size: 20px;">SKILL<span style="color: #F37021;">FORGE</span></h2>
+        </div>
+
+        <div style="position: relative;">
+            <div id="profile-trigger" style="display: flex; align-items: center; gap: 10px; cursor: pointer; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 50px; transition: 0.3s;">
+                <div id="user-avatar" style="width: 32px; height: 32px; background: #F37021; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; color: white;">
+                    U
+                </div>
+                <span id="user-display" style="font-size: 14px; font-weight: 600;">Authorized Worker</span>
+                <span style="font-size: 10px;">▼</span>
+            </div>
+
+            <div id="profile-dropdown" style="display: none; position: absolute; right: 0; top: 125%; width: 220px; background: white; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow: hidden; border: 1px solid #e2e8f0;">
+                <div style="padding: 15px; border-bottom: 1px solid #f1f5f9; background: #f8fafc;">
+                    <p style="margin: 0; font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: bold;">User Account</p>
+                    <p id="dropdown-user-name" style="margin: 5px 0 0; font-weight: bold; color: #1B263B; font-size: 15px;"></p>
+                </div>
+                
+                <a href="admin.html" id="admin-link" style="display: none; padding: 12px 15px; text-decoration: none; color: #1B263B; font-size: 14px; border-bottom: 1px solid #f1f5f9; background: #fffbeb; transition: 0.2s;">
+                    ⚙️ Admin Portal
+                </a>
+                
+                <button id="logout-btn" style="width: 100%; text-align: left; padding: 15px; background: #fff; border: none; color: #dc2626; font-size: 14px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: 0.2s;">
+                    🚪 Logout System
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 40px 50px; max-width: 1200px; margin: 0 auto;">
+        
+        <div style="display: flex; gap: 25px; margin-bottom: 40px;">
+            <div style="flex: 1; background: white; padding: 25px; border-radius: 12px; border-left: 6px solid #1B263B; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <h3 id="total-count" style="margin: 0; color: #1B263B; font-size: 36px;">0</h3>
+                <p style="margin: 8px 0 0; color: #64748b; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Available Modules</p>
+            </div>
+            <div style="flex: 1; background: white; padding: 25px; border-radius: 12px; border-left: 6px solid #22C55E; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <h3 id="completed-count" style="margin: 0; color: #22C55E; font-size: 36px;">0</h3>
+                <p style="margin: 8px 0 0; color: #64748b; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Modules Completed</p>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 45px;">
+            <input type="text" id="searchInput" placeholder="🔍 Search for industrial training modules..." 
+            style="width: 100%; padding: 22px; border-radius: 12px; border: 2px solid #e2e8f0; font-size: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); outline: none; box-sizing: border-box; transition: 0.3s;">
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h1 style="color: #1B263B; font-size: 28px; margin: 0; font-weight: 800;">Training Catalog</h1>
+            <a href="admin.html" id="admin-catalog-btn" style="display: none; color: #F37021; text-decoration: none; font-weight: bold; font-size: 13px; border: 2px solid #F37021; padding: 10px 20px; border-radius: 8px; transition: 0.3s;">
+                + Manage Modules
+            </a>
+        </div>
+
+        <hr style="border: 0; border-top: 2px solid #e2e8f0; margin-bottom: 35px;">
+
+        <div id="course-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 35px; align-items: start;">
+            <p style="text-align: center; color: #94a3b8; grid-column: 1/-1; padding: 60px; font-size: 18px;">🔄 Connecting to SkillForge Catalog...</p>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+
+    <script>
+        // --- 1. UI INTERACTIVE ELEMENTS (Dropdown) ---
+        const trigger = document.getElementById('profile-trigger');
+        const dropdown = document.getElementById('profile-dropdown');
+        
+        if (trigger && dropdown) {
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHidden = dropdown.style.display === 'none' || dropdown.style.display === '';
+                dropdown.style.display = isHidden ? 'block' : 'none';
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        }
+
+        // --- 2. IDENTITY & ROLE VERIFICATION ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const user = localStorage.getItem('loggedInUser');
+            if (!user) {
+                window.location.replace('login.html');
+                return;
+            }
+
+            // Sync User Interface
+            const userDisplay = document.getElementById('user-display');
+            const dropdownUserName = document.getElementById('dropdown-user-name');
+            const userAvatar = document.getElementById('user-avatar');
+
+            if(userDisplay) userDisplay.innerText = user;
+            if(dropdownUserName) dropdownUserName.innerText = user;
+            if(userAvatar) userAvatar.innerText = user.charAt(0).toUpperCase();
+
+            // Handle Admin-Specific Controls
+            if (user.toLowerCase() === 'admin') {
+                const adminLink = document.getElementById('admin-link');
+                const adminBtn = document.getElementById('admin-catalog-btn');
+                if(adminLink) adminLink.style.display = 'block';
+                if(adminBtn) adminBtn.style.display = 'block';
+            }
+        });
+
+        // --- 3. RE-INIT LOGOUT ---
+        const logoutBtn = document.getElementById('logout-btn');
+        if(logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                if(confirm("Are you sure you want to log out of SkillForge?")) {
+                    // We only remove the user session, but keep 'completedCourses' data for persistence
+                    localStorage.removeItem('loggedInUser');
+                    window.location.href = 'login.html';
+                
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillForge | Portal Access</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page" style="background: #f1f5f9; font-family: 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0;">
+    
+    <div class="auth-card" style="background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; border-top: 6px solid #1B263B;">
+        
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px;">
+            <div style="background: #F37021; color: white; padding: 5px 12px; border-radius: 4px; font-weight: 900; font-size: 22px; transform: skewX(-10deg);">SF</div>
+            <h2 style="margin: 0; letter-spacing: 1.5px; font-size: 24px; color: #1B263B;">SKILL<span style="color: #F37021;">FORGE</span></h2>
+        </div>
+
+        <h3 id="auth-title" style="text-align: center; color: #1B263B; margin-bottom: 25px; font-weight: 600;">Worker Login</h3>
+        
+        <div class="auth-toggle" style="display: flex; justify-content: center; margin-bottom: 25px; background: #f8fafc; padding: 5px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <button type="button" onclick="setAuthMode('login')" id="l-btn" style="flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; background: #1B263B; color: white;">Login</button>
+            <button type="button" onclick="setAuthMode('register')" id="r-btn" style="flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; background: transparent; color: #64748b;">Register</button>
+        </div>
+        
+        <form id="auth-form">
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 11px; font-weight: bold; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Account ID / Name</label>
+                <input type="text" id="userid" placeholder="Enter your User ID" required 
+                       style="width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; box-sizing: border-box; transition: 0.3s; font-size: 15px;">
+            </div>
+            
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; font-size: 11px; font-weight: bold; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Secure Password</label>
+                <input type="password" id="password" placeholder="••••••••" required 
+                       style="width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; box-sizing: border-box; transition: 0.3s; font-size: 15px;">
+            </div>
+
+            <button type="submit" id="submit-btn" style="width: 100%; background: #1B263B; color: white; padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;">
+                ACCESS PLATFORM
+            </button>
+        </form>
+        
+        <p id="auth-status" style="text-align: center; font-size: 13px; margin-top: 20px; color: #ef4444; display: none; padding: 12px; border-radius: 8px; background: #fee2e2; border: 1px solid #fecaca; font-weight: 500;"></p>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
