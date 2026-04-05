@@ -1,3 +1,9 @@
+const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || '';
+
+function apiUrl(path) {
+    return `${API_BASE_URL}${path}`;
+}
+
 // 1. Initial Load
 window.onload = () => {
     loadCourses();
@@ -23,7 +29,7 @@ async function loadUserAnalytics() {
     if (!tableBody) return;
 
     try {
-        const response = await fetch('/api/admin/stats');
+        const response = await fetch(apiUrl('/api/admin/stats'));
         if (!response.ok) throw new Error("Could not fetch analytics data");
 
         let users = await response.json();
@@ -145,7 +151,7 @@ if (courseForm) {
         });
 
         try {
-            const response = await fetch('/api/courses', {
+            const response = await fetch(apiUrl('/api/courses'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
@@ -173,7 +179,7 @@ if (courseForm) {
  */
 async function loadCourses() {
     try {
-        const response = await fetch('/api/courses');
+        const response = await fetch(apiUrl('/api/courses'));
         const courses = await response.json();
         const list = document.getElementById('admin-course-list');
         
@@ -211,7 +217,7 @@ async function loadCourses() {
 async function deleteCourse(id) {
     if (confirm("Remove this module?")) {
         try {
-            const response = await fetch(`/api/courses/${id}`, { method: 'DELETE' });
+            const response = await fetch(apiUrl(`/api/courses/${id}`), { method: 'DELETE' });
             if (response.ok) location.reload();
         } catch (err) {
             alert("Error deleting course.");

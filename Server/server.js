@@ -7,6 +7,10 @@ const cors = require('cors');
 // 1. Load Configurations
 dotenv.config();
 const app = express();
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+    .split(',')
+    .map(origin => origin.trim())
+    .filter(Boolean);
 
 // 2. Models
 // Using path.join ensures these work on both Windows and Linux servers
@@ -14,7 +18,15 @@ const User = require(path.join(__dirname, 'models/User'));
 const Course = require(path.join(__dirname, 'models/Course'));
 
 // 3. Middleware
-app.use(cors());
+app.use(cors({
+    origin(origin, callback) {
+        if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+
+        return callback(new Error('Not allowed by CORS'));
+    }
+}));
 app.use(express.json());
 
 // Serving the 'public' folder from the Client directory

@@ -1,3 +1,9 @@
+const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || '';
+
+function apiUrl(path) {
+    return `${API_BASE_URL}${path}`;
+}
+
 // 1. GLOBAL MODE TRACKING
 let currentMode = 'login'; 
 
@@ -44,7 +50,7 @@ document.getElementById('auth-form').addEventListener('submit', async (e) => {
         status.innerText = '';
     }
 
-    const endpoint = currentMode === 'login' ? '/api/login' : '/api/register';
+    const endpoint = currentMode === 'login' ? apiUrl('/api/login') : apiUrl('/api/register');
 
     try {
         const response = await fetch(endpoint, {

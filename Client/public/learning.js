@@ -1,3 +1,9 @@
+const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || '';
+
+function apiUrl(path) {
+    return `${API_BASE_URL}${path}`;
+}
+
 // 1. GLOBAL STATE
 let currentCourse = null;
 let viewedMaterials = new Set();
@@ -22,7 +28,7 @@ window.onload = async () => {
     }
 
     try {
-        const response = await fetch(`/api/courses/${courseId}`);
+        const response = await fetch(apiUrl(`/api/courses/${courseId}`));
         currentCourse = await response.json();
 
         if (!response.ok || !currentCourse) {
@@ -161,7 +167,7 @@ function submitAssessment() {
 // NEW: Connects the Worker's progress to the Admin Database
 async function saveProgressToDatabase() {
     try {
-        await fetch('/api/users/complete', {
+        await fetch(apiUrl('/api/users/complete'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 

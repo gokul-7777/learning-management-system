@@ -1,3 +1,9 @@
+const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || '';
+
+function apiUrl(path) {
+    return `${API_BASE_URL}${path}`;
+}
+
 // 1. GLOBAL FUNCTIONS
 function logout() {
     if(confirm("Are you sure you want to log out of SkillForge?")) {
@@ -54,7 +60,7 @@ window.onload = async () => {
     if (!grid) return;
 
     try {
-        const response = await fetch('/api/courses');
+        const response = await fetch(apiUrl('/api/courses'));
         if (!response.ok) throw new Error("Failed to fetch courses");
         const courses = await response.json();
         
